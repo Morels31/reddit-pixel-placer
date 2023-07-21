@@ -73,8 +73,8 @@ Le priorità dei pixel sono calcolate come segue (ultima corrispondenza)
 - python~=3.10
 
 Installation:
-`sudo apt install python3.11-full`
-`python3.11 -m ensurepip --upgrade`
-`python3.11 -m pip install --upgrade pip`
-`python3.11 -m pip install toml`
-`python3.11 -m pip install pillow`
+- `sudo apt install python3.11-full`
+- `python3.11 -m ensurepip --upgrade`
+- `python3.11 -m pip install --upgrade pip`
+- `python3.11 -m pip install toml`
+- `python3.11 -m pip install pillow`
