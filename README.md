@@ -1,10 +1,10 @@
-# Istruzioni per lo script pixel:
+# Istruzioni per lo script:
 
 ### Lo script richiede le seguenti informazioni:
 
 - `picture_folder`: Percorso della cartella in cui si trovano le immagini
 - `pixel_config`: Percorso del file di configurazione in formato TOML, che specifica quale immagine deve essere collocata
-- `--config`: Può essere utilizzato più volte. Una configurazione valida anche in caso di upgrade
+- `--config`: Crea una configurazione, può essere utilizzato più volte. (anche in caso di upgrade)
 
 La configurazione del generatore ha il seguente formato:  
 `--config min_prio;max_prio;png_path;prio_path;png_prio_path;json_path;io;ip;ao;cmp`
@@ -27,9 +27,9 @@ I singoli parametri:
 |    ao     |                `0` oppure `1`               |      -       |                                                                                      Consenti o non consentire la sovrascrittura dei pixel con pixel con priorità più alta                                                          |
 |    cmp    |                `0` oppure `1`               |      -       |                                                                                      Tutti i pixel che hanno una priorità più alta di quella specificata da `max_prio' sono impostati su questo valore                              |
 
-`""` kennzeichnen einen "leeren Parameter" (wird dann ignoriert, Bsp: `10;250;;/tmp/prio.png;/tmp/json.png;1;1;1;1`
-oder `;;;/tmp/prio.png;;/tmp/json.png;1;1;1;1` würde keine png Datei generieren, aber die Prio Datei)  
-Beispiele:  
+`""` segnane uno "parametri vuoti" (viene quindi ignorato, cucchiaio: `10;250;;/tmp/prio.png;/tmp/json.png;1;1;1;1`
+oder `;;;/tmp/prio.png;;/tmp/json.png;1;1;1;1` non genererebbe un file png, ma il file prio)  
+Esempio:  
 `20;200;/tmp/png.png;/tmp/prio.png;;/tmp/json.json;0;0;0;0`  
 `20;200;;/tmp/prio.png;;/tmp/json.json;1;0;0;0`  
 `20;200;/tmp/png.png;;/tmp/picture_prio.png;/tmp/json.json;1;1;0;0`  
@@ -37,30 +37,30 @@ Beispiele:
 
 
 ------
-toml Datei:
+File toml:
 
-`ignore_colors`: alle Farben, die ignoriert werden sollen. Die Farben werden in Hex aber OHNE führendes # angegeben.  
-`width`: Breite des generierten Bildes  
-`height`: Höhe des generierten Bildes  
-`add-x`: Offset x (reddit nutzt negative Koordinaten); nach Addition muss kleinste Koordinate 0 sein!
-`add-y`: Offset y (reddit nutzt negative Koordinaten); nach Addition muss kleinste Koordinate 0 sein!
-`default_prio`: Default Priorität für alle Bilder  
-`structure` (Liste)
+`ignore_colors`: qualsiasi colore da ignorare. I colori sono espressi in esadecimale ma SENZA il # iniziale.  
+`width`: Larghezza dell'immagine generata 
+`height`: Altezza dell'immagine generata
+`add-x`: Offset x (reddit utilizza coordinate negative); sommandola alla larghezza, la coordinata più piccola deve essere 0!
+`add-y`: Offset y (reddit utilizza coordinate negative); sommandola all' altezza, la coordinata più piccola deve essere 0!
+`default_prio`: Priorità predefinita per tutte le immagini  
+`structure` (Array)
 
-Jedes `structure` hat folgende Werte:
+Ogni `struttura` ha i seguenti valori:
 
-|   Parameter   |      Beispiel       | Optional |                               Beschreibung                               |
-|:-------------:|:-------------------:|:--------:|:------------------------------------------------------------------------:|
-|     name      |     flagge-ost      |    N     |                  Name der Struktur, muss eindeutig sein                  |
-|     file      |   flagge-ost.png    |    N     |                  Dateiname, relativ zu `picture_folder`                  |
-| priority_file | flagge-ost-prio.png |    J     |         Dateiname für die Priodatei, relativ zu `picture_folder`         |
-|    startx     |         100         |    N     | x (links-nach-rechts) Startwert, an den die Struktur gesetzt werden soll |
-|    starty     |         100         |    N     |  y (oben-nach-unten) Startwert, an den die Struktur gesetzt werden soll  |
-|   priority    |         127         |    J     |     Priorität für Pixel des Bildes, die keine eigene Priorität haben     |
+|   Parameter   |       Esempio       | Facoltativo |                               Beschreibung                               |
+|:-------------:|:-------------------:|:-----------:|:------------------------------------------------------------------------:|
+|     name      |     flagge-ost      |             |                          Nome della struttura, deve essere univoco                            |
+|     file      |   flagge-ost.png    |             |                            Nome file, relativo a `picture_folder`                             |
+| priority_file | flagge-ost-prio.png |      X      |               Nome file per il file di priorità, relativo a `picture_folder`                  |
+|    startx     |         100         |             |  x (da sinistra a destra) valore iniziale in corrispondenza del quale impostare la struttura  |
+|    starty     |         100         |             |          y (dall'alto verso il basso) Valore iniziale in cui impostare la struttura           |
+|   priority    |         127         |      X      |            Priorità per i pixel dell'immagine che non hanno una propria priorità              |
 
-255 ist die höchste Priorität.
-Die Prioritäten der Pixel werden wie folgt berechnet (last match):
-1. Default prio
-2. Prio der Struktur, falls gegeben
-3. Alpha Channel des Pixels, falls das Bild einen solchen hat
-4. Wert des roten Kanals des entsprechenden Pixels im Prio PNG, falls es ein Prio PNG gibt (die anderen Kanäle werden ignoriert)
+255 è la priorità più alta
+Le priorità dei pixel sono calcolate come segue (ultima corrispondenza)
+1. Priorità default
+2. Priorità della struttura, se assegnata
+3. Canale alfa del pixel se l'immagine ne ha uno
+4. Valore del canale rosso del pixel corrispondente nel PNG prio, se esiste un PNG prio (gli altri canali vengono ignorati)
