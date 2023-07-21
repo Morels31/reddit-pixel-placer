@@ -45,9 +45,9 @@ File toml:
 `add-x`: Offset x (reddit utilizza coordinate negative); sommandola alla larghezza, la coordinata più piccola deve essere 0!
 `add-y`: Offset y (reddit utilizza coordinate negative); sommandola all' altezza, la coordinata più piccola deve essere 0!
 `default_prio`: Priorità predefinita per tutte le immagini  
-`structure` (Array)
+`structure' (Molteplici)
 
-Ogni `struttura` ha i seguenti valori:
+Ogni `structure` ha i seguenti valori:
 
 |   Parameter   |       Esempio       | Facoltativo |                               Beschreibung                               |
 |:-------------:|:-------------------:|:-----------:|:------------------------------------------------------------------------:|
@@ -64,3 +64,9 @@ Le priorità dei pixel sono calcolate come segue (ultima corrispondenza)
 2. Priorità della struttura, se assegnata
 3. Canale alfa del pixel se l'immagine ne ha uno
 4. Valore del canale rosso del pixel corrispondente nel PNG prio, se esiste un PNG prio (gli altri canali vengono ignorati)
+
+
+### Dependency
+
+- Pillow~=9.4.0
+- toml~=0.10.2
